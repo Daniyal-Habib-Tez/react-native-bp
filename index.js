@@ -12,7 +12,17 @@ import thunk from 'redux-thunk';
 import rootReducer from './src/store/reducers/rootReducer';
 import {color} from './theme';
 import Snackbar from './src/components/Snackbar';
+import PushNotification from 'react-native-push-notification';
 console.disableYellowBox = true;
+
+PushNotification.configure({
+  onNotification: function (notification) {
+    console.log('NOTIFICATION:', notification);
+    // process the notification
+  },
+  popInitialNotification: true,
+  requestPermissions: true,
+});
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 

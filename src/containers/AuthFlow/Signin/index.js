@@ -8,6 +8,7 @@ import {
 import {connect} from 'react-redux';
 import {onSnackbar} from '../../../store/actions/layoutActions';
 import {StackActions} from '@react-navigation/routers';
+import PushNotification from 'react-native-push-notification';
 
 const Signin = props => {
   const [email, setEmail] = useState('');
@@ -62,6 +63,12 @@ const Signin = props => {
   const onForgetPress = () => {
     props.navigation.navigate('ForgetPassword');
   };
+  const createChannel = () => {
+    PushNotification.createChannel({
+      channelId: 'test-channel',
+      channelName: 'Test-channel',
+    });
+  };
 
   const onSubmit = () => {
     try {
@@ -85,6 +92,7 @@ const Signin = props => {
             setStorageItem('UserID', res?.data?.result?._id);
             props.toggleAuth(res?.data?.result);
             setLoading(false);
+            createChannel();
             props.navigation.dispatch(StackActions.replace('MainFlow'));
           },
           err => {

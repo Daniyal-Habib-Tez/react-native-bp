@@ -10,6 +10,7 @@ import {connect} from 'react-redux';
 import {logout, toggleAuthActionCreator} from '../../store/actions/authActions';
 import {onSnackbar} from '../../store/actions/layoutActions';
 import {useNavigation} from '@react-navigation/core';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const DrawerContent = props => {
   const navigation = useNavigation();
@@ -56,17 +57,6 @@ const DrawerContent = props => {
                 <Image
                   resizeMode="contain"
                   style={{width: size, tintColor: color}}
-                  source={require('../../assets/images/star.png')}
-                />
-              )}
-              label="Profle"
-              onPress={() => props.navigation.navigate('Profile')}
-            />
-            <DrawerItem
-              icon={({color, size}) => (
-                <Image
-                  resizeMode="contain"
-                  style={{width: size, tintColor: color}}
                   source={require('../../assets/images/privacy-policy.png')}
                 />
               )}
@@ -87,6 +77,7 @@ const DrawerContent = props => {
                   props.showAlert('Logging out');
                   console.log('nav -->', props.navigation);
                   props.toggleAuth('');
+                  AsyncStorage.clear();
                   navigation.navigate('AuthFlow', {screen: 'Signin'});
                   // props.logout();
                 })
